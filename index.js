@@ -2,25 +2,20 @@
 var mapboxAccessToken = 'pk.eyJ1IjoicG1hY2siLCJhIjoiY2l0cTJkN3N3MDA4ZTJvbnhoeG12MDM5ZyJ9.ISJHx3VHMvhQade2UQAIZg';
 var map = L.map('map').setView([41.8781, -87.6298], 14);
 var route_geojson;
+var businesses;
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
     id: 'mapbox.light',
 }).addTo(map);
 
 
-function makeMarker(node, color)
+function makeMarker(business, color)
 {
   // add marker object to map
-  var marker = L.marker([node.coordinates[1], node.coordinates[0]],{icon: L.AwesomeMarkers.icon({icon: '', markerColor: color}) }).addTo(map);
-  marker.bindPopup('<b>' + node.name + '</b>' );
+  var marker = L.marker([business.latitude, business.longitude ],{icon: L.AwesomeMarkers.icon({icon: '', markerColor: color}) }).addTo(map);
+  marker.bindPopup('<b>' + business.doing_business_as_name + '</b>' + '<br/>' + '<p>' + business.address + '</p>'  );
 };
 
-document.getElementById("calculate").onclick = function () {
-  createNodes();
-
-
-
-};
 
 // add draw interface for route
 var drawnItems = new L.LayerGroup();
@@ -70,17 +65,16 @@ function createNodes(neighborhood_geojson){
     async: false,
     dataType: 'json',
     success: function (data) {
-      console.log(data)
-
+      businesses = data.objects;
     }
   });
 
+  for (var i = 0; i < businesses.length; i++) {
+  var business = businesses[i];
+  makeMarker(business, 'blue');
+  };
 
 };
 
 
 //add nodes as markers to map. Flip coordinates for leaflet marker object
-for (var i = 0; i < nodes.length; i++) {
-var node = nodes[i];
-makeMarker(node, 'blue');
-};
