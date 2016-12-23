@@ -58,7 +58,7 @@ L.drawLocal.draw.toolbar.buttons.polygon = 'Draw the area you want examine';
 // load node information from plenario
 var nodes = new Array();
 function createNodes(neighborhood_geojson){
-  var url_query =   'http://plenar.io/v1/api/detail/?dataset_name=business_licenses&obs_date__ge=1900-01-01&location_geom__within=' + JSON.stringify(neighborhood_geojson) +  '&business_licenses__filter={"op":"and", "val": [{"op":"eq","col":"license_description","val":"Retail Food Establishment"},{"op":"ge","col":"license_term_expiration_date","val":"2016-12-22"}]}'
+  var url_query =   'https://plenar.io/v1/api/detail/?dataset_name=business_licenses&obs_date__ge=1900-01-01&location_geom__within=' + JSON.stringify(neighborhood_geojson) +  '&business_licenses__filter={"op":"and", "val": [{"op":"eq","col":"license_description","val":"Retail Food Establishment"},{"op":"ge","col":"license_term_expiration_date","val":"2016-12-22"}]}'
   $.ajax({
     type: 'GET',
     url: url_query,
